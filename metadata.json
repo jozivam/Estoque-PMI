@@ -1,0 +1,10 @@
+{
+  "name": "Estoque PMI 2.0",
+  "description": "Sistema de gerenciamento de estoque para almoxarifado PMI com captura de fotos, movimentação de entrada/saída e sincronização com Google Sheets e Google Drive.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
