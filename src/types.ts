@@ -50,6 +50,7 @@ export interface Movement {
 
 export interface GoogleSheetsConfig {
   sheetId: string;
+  scriptUrl?: string;
   apiKey?: string;
   accessToken?: string;
   autoSync: boolean;

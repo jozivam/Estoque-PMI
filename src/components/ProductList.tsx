@@ -28,11 +28,23 @@ export const ProductList: React.FC<ProductListProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('TODAS');
   const [filterLowStockOnly, setFilterLowStockOnly] = useState<boolean>(initialFilterLowStock);
   const [showInactive, setShowInactive] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<'nome' | 'quantidade-asc' | 'quantidade-desc' | 'critico'>('critico');
+  const [sortBy, setSortBy] = useState<'nome' | 'quantidade-asc' | 'quantidade-desc' | 'critico'>('nome');
   const [viewType, setViewType] = useState<ViewType>('deck');
 
   // Detail Modal State
   const [selectedDetailProduct, setSelectedDetailProduct] = useState<Product | null>(null);
+
+  const categoriesList = useMemo(() => {
+    const base = CATEGORIES_LIST;
+    const fromProducts = products.map(p => p.categoria).filter(Boolean);
+    let custom: string[] = [];
+    try {
+      custom = JSON.parse(localStorage.getItem('pmi_custom_categories') || '[]');
+    } catch (e) {
+      custom = [];
+    }
+    return Array.from(new Set([...base, ...fromProducts, ...custom]));
+  }, [products]);
 
   // Filter products based on search term, category, low stock, status
   const filteredProducts = useMemo(() => {
@@ -148,21 +160,8 @@ export const ProductList: React.FC<ProductListProps> = ({
 
         {/* Quick Filter Buttons & Sorting Dropdown */}
         <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100 text-xs">
-          {/* Low Stock Toggle Pill */}
+          {/* Active/Inactive Toggle Pill */}
           <div className="flex items-center space-x-2">
-            <button
-              id="btn-filter-low-stock"
-              onClick={() => setFilterLowStockOnly(!filterLowStockOnly)}
-              className={`flex items-center space-x-1 px-2.5 py-1 rounded-md text-xs font-semibold transition ${
-                filterLowStockOnly
-                  ? 'bg-amber-500 text-white shadow-2xs'
-                  : 'bg-gray-100 text-gray-700 border border-gray-200 hover:bg-gray-200'
-              }`}
-            >
-              <AlertTriangle className="w-3.5 h-3.5" />
-              <span>Apenas Estoque Baixo</span>
-            </button>
-
             <button
               id="btn-toggle-inactive"
               onClick={() => setShowInactive(!showInactive)}
@@ -186,7 +185,6 @@ export const ProductList: React.FC<ProductListProps> = ({
               onChange={(e) => setSortBy(e.target.value as any)}
               className="bg-gray-50 text-gray-800 border border-gray-200 rounded-md px-2 py-0.5 focus:outline-none focus:border-[#1a73e8]"
             >
-              <option value="critico">Críticos Primeiro</option>
               <option value="nome">Nome (A-Z)</option>
               <option value="quantidade-desc">Maior Estoque</option>
               <option value="quantidade-asc">Menor Estoque</option>
@@ -206,7 +204,7 @@ export const ProductList: React.FC<ProductListProps> = ({
           >
             Todas Categorias
           </button>
-          {CATEGORIES_LIST.map(cat => (
+          {categoriesList.map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -263,7 +261,7 @@ export const ProductList: React.FC<ProductListProps> = ({
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {filteredProducts.map(product => {
-                    const isLow = product.quantidade <= product.quantidadeMinima;
+                    const isLow = false;
                     const photos = getProductPhotos(product);
                     const mainPhoto = photos[0] || product.foto || '';
 
@@ -345,7 +343,7 @@ export const ProductList: React.FC<ProductListProps> = ({
           {viewType === 'galeria' && (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {filteredProducts.map(product => {
-                const isLow = product.quantidade <= product.quantidadeMinima;
+                const isLow = false;
                 const photos = getProductPhotos(product);
                 const mainPhoto = photos[0] || product.foto || '';
 

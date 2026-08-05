@@ -15,7 +15,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onEditProduct,
   onViewDetail
 }) => {
-  const isLowStock = product.quantidade <= product.quantidadeMinima;
+  const isLowStock = false;
   const isOutOfStock = product.quantidade === 0;
 
   const photos = getProductPhotos(product);

@@ -16,7 +16,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   onEditProduct,
   onClose
 }) => {
-  const isLowStock = product.quantidade <= product.quantidadeMinima;
+  const isLowStock = false;
   const isOutOfStock = product.quantidade === 0;
 
   const photos = getProductPhotos(product);
@@ -178,22 +178,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-0.5">
-                    MÍNIMO EXIGIDO
-                  </span>
-                  <span className="text-sm font-bold text-gray-700">
-                    {product.quantidadeMinima} un.
-                  </span>
                 </div>
-              </div>
-
-              {isLowStock && (
-                <div className="mt-2 pt-2 border-t border-amber-200/80 text-amber-800 text-xs font-semibold flex items-center space-x-1.5">
-                  <AlertTriangle className="w-4 h-4 text-amber-600" />
-                  <span>Estoque Crítico — Reabastecimento necessário!</span>
-                </div>
-              )}
             </div>
 
             {/* Field Grid: Categoria & Localização */}

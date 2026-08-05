@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { X, Camera, Upload, Trash2, Save, MapPin, Tag, Hash, FileText, Star, Plus, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 import { Product, CategoryType, ItemStatus, getProductPhotos } from '../types';
 import { CATEGORIES_LIST } from '../data/mockData';
@@ -34,6 +34,36 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  const [customCategories, setCustomCategories] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('pmi_custom_categories') || '[]');
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const categories = useMemo(() => {
+    const base = CATEGORIES_LIST;
+    const fromProds = existingProducts.map(p => p.categoria).filter(Boolean);
+    return Array.from(new Set([...base, ...fromProds, ...customCategories]));
+  }, [existingProducts, customCategories]);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    if (val === '__NEW_CATEGORY__') {
+      const newCat = prompt('Digite o nome da nova categoria:');
+      if (newCat && newCat.trim() !== '') {
+        const formattedCat = newCat.trim().toUpperCase();
+        const updatedCustom = Array.from(new Set([...customCategories, formattedCat]));
+        setCustomCategories(updatedCustom);
+        localStorage.setItem('pmi_custom_categories', JSON.stringify(updatedCustom));
+        setCategoria(formattedCat);
+      }
+    } else {
+      setCategoria(val);
+    }
+  };
 
   useEffect(() => {
     if (productToEdit) {
@@ -346,12 +376,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               </label>
               <select
                 value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
-                className="w-full bg-gray-50 text-gray-800 border border-gray-300 rounded px-2.5 py-1.5 text-xs focus:border-[#1a73e8] focus:outline-none"
+                onChange={handleCategoryChange}
+                className="w-full bg-gray-50 text-gray-800 border border-gray-300 rounded px-2.5 py-1.5 text-xs focus:border-[#1a73e8] focus:outline-none font-semibold"
               >
-                {CATEGORIES_LIST.map(cat => (
+                {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
+                <option value="__NEW_CATEGORY__" className="text-blue-600 font-bold">+ Adicionar Nova Categoria...</option>
               </select>
             </div>
 
@@ -370,7 +401,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
 
           {/* Quantities */}
-          <div className="grid grid-cols-2 gap-3 bg-white p-3 rounded-md border border-gray-200">
+          <div className="bg-white p-3 rounded-md border border-gray-200">
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">
                 QUANTIDADE
@@ -381,19 +412,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 value={quantidade}
                 onChange={(e) => setQuantidade(Number(e.target.value))}
                 className="w-full bg-gray-50 text-gray-900 font-black border border-gray-300 rounded px-2.5 py-1.5 text-sm focus:border-[#1a73e8] focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">
-                MÍNIMO ALERTA
-              </label>
-              <input
-                type="number"
-                min="0"
-                value={quantidadeMinima}
-                onChange={(e) => setQuantidadeMinima(Number(e.target.value))}
-                className="w-full bg-gray-50 text-amber-700 font-black border border-gray-300 rounded px-2.5 py-1.5 text-sm focus:border-[#1a73e8] focus:outline-none"
               />
             </div>
           </div>

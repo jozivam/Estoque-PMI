@@ -1,0 +1,17 @@
+{
+  "short_name": "Estoque PMI",
+  "name": "Estoque PMI - Controle de Almoxarifado",
+  "icons": [
+    {
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#1a73e8",
+  "background_color": "#f8fafc",
+  "orientation": "portrait"
+}

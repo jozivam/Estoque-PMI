@@ -31,12 +31,6 @@ export const Navigation: React.FC<NavigationProps> = ({
       isPrimary: true
     },
     {
-      id: 'alertas' as ActiveTab,
-      label: 'Críticos',
-      icon: AlertTriangle,
-      badge: criticalCount > 0 ? criticalCount : undefined
-    },
-    {
       id: 'configuracoes' as ActiveTab,
       label: 'Planilha',
       icon: Settings,
@@ -77,7 +71,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 
       {/* Mobile Fixed Bottom AppSheet Tab Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-lg">
-        <div className="grid grid-cols-5 h-16 max-w-lg mx-auto px-1 items-center">
+        <div className="grid grid-cols-4 h-16 max-w-lg mx-auto px-1 items-center">
           {tabs.map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;

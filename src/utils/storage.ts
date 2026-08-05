@@ -120,16 +120,26 @@ export const recordStockMovement = (
 };
 
 export const loadSheetsConfig = (): GoogleSheetsConfig => {
+  const defaults = {
+    sheetId: '1AQog5QCHbAf138bIt97eCx_nMIoJ7Pzha2MOU4cBD-4',
+    scriptUrl: 'https://script.google.com/macros/s/AKfycbwMWV0DrXl09yUdmox4igLWaVv49YXbYY5WujM8WWji3yDXy5mtOHLsX-OjPyxmr9TS/exec',
+    autoSync: true
+  };
   try {
     const data = localStorage.getItem(STORAGE_KEYS.CONFIG);
-    if (data) return JSON.parse(data);
+    if (data) {
+      const parsed = JSON.parse(data);
+      return {
+        sheetId: parsed.sheetId && parsed.sheetId.trim() !== '' ? parsed.sheetId : defaults.sheetId,
+        scriptUrl: parsed.scriptUrl && parsed.scriptUrl.trim() !== '' ? parsed.scriptUrl : defaults.scriptUrl,
+        autoSync: parsed.autoSync !== undefined ? parsed.autoSync : defaults.autoSync,
+        lastSynced: parsed.lastSynced
+      };
+    }
   } catch (e) {
     console.error('Erro ao carregar configuração do Google Sheets:', e);
   }
-  return {
-    sheetId: '',
-    autoSync: false
-  };
+  return defaults;
 };
 
 export const saveSheetsConfig = (config: GoogleSheetsConfig): void => {
