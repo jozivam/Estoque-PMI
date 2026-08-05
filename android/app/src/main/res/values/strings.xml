@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Estoque PMI</string>
+    <string name="title_activity_main">Estoque PMI</string>
+    <string name="package_name">com.pmi.estoque</string>
+    <string name="custom_url_scheme">com.pmi.estoque</string>
+</resources>
