@@ -122,7 +122,7 @@ export const recordStockMovement = (
 export const loadSheetsConfig = (): GoogleSheetsConfig => {
   const defaults = {
     sheetId: '1AQog5QCHbAf138bIt97eCx_nMIoJ7Pzha2MOU4cBD-4',
-    scriptUrl: 'https://script.google.com/macros/s/AKfycbwMWV0DrXl09yUdmox4igLWaVv49YXbYY5WujM8WWji3yDXy5mtOHLsX-OjPyxmr9TS/exec',
+    scriptUrl: 'https://script.google.com/macros/s/AKfycbxNmxk_64H1NdcgjGd1k7BFD3RptNIW7Pui0y2H8HbPQcG7iYgicttqx9uca1mhRc18/exec',
     autoSync: true
   };
   try {
