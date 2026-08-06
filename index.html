@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="/manifest.json" />
     <title>Estoque PMI - Almoxarifado</title>
+    <script>
+      window.addEventListener('error', function(event) {
+        var root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = '<div style="padding: 20px; color: #991b1b; font-family: system-ui, -apple-system, sans-serif; background: #fef2f2; border: 1px solid #f87171; margin: 20px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">' +
+            '<h3 style="margin-top: 0; font-size: 16px; font-weight: bold;">Ocorreu um erro no aplicativo:</h3>' +
+            '<p style="font-size: 13px;"><b>Mensagem:</b> ' + event.message + '</p>' +
+            '<p style="font-size: 13px;"><b>Arquivo:</b> ' + (event.filename ? event.filename.split("/").pop() : "desconhecido") + ':' + event.lineno + '</p>' +
+            '<pre style="white-space: pre-wrap; font-size: 11px; background: #cbd5e1; padding: 10px; border-radius: 4px; color: #1e293b; max-height: 300px; overflow-y: auto;">' + (event.error ? event.error.stack : 'Sem stack trace') + '</pre>' +
+            '<button onclick="location.reload()" style="margin-top: 10px; padding: 6px 12px; background: #dc2626; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer;">Recarregar Página</button>' +
+            '</div>';
+        }
+      });
+      window.addEventListener('unhandledrejection', function(event) {
+        var root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = '<div style="padding: 20px; color: #991b1b; font-family: system-ui, -apple-system, sans-serif; background: #fef2f2; border: 1px solid #f87171; margin: 20px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">' +
+            '<h3 style="margin-top: 0; font-size: 16px; font-weight: bold;">Erro de Promessa (Rejeição Não Tratada):</h3>' +
+            '<p style="font-size: 13px;"><b>Motivo:</b> ' + event.reason + '</p>' +
+            '<pre style="white-space: pre-wrap; font-size: 11px; background: #cbd5e1; padding: 10px; border-radius: 4px; color: #1e293b; max-height: 300px; overflow-y: auto;">' + (event.reason && event.reason.stack ? event.reason.stack : 'Sem stack trace') + '</pre>' +
+            '<button onclick="location.reload()" style="margin-top: 10px; padding: 6px 12px; background: #dc2626; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer;">Recarregar Página</button>' +
+            '</div>';
+        }
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
