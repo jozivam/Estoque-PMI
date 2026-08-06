@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, QrCode, Search, CheckCircle, AlertCircle } from 'lucide-react';
-import { Product } from '../types';
+import { Product, getProductPhotos } from '../types';
 
 interface BarcodeScannerModalProps {
   products: Product[];
@@ -99,13 +99,20 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
               </div>
 
               <div className="flex items-center space-x-3">
-                {scannedItem.foto && (
-                  <img
-                    src={scannedItem.foto}
-                    alt={scannedItem.nome}
-                    className="w-12 h-12 rounded object-cover border border-gray-200"
-                  />
-                )}
+                {(() => {
+                  const photos = getProductPhotos(scannedItem);
+                  const displayPhoto = photos[0] || '';
+                  return displayPhoto ? (
+                    <img
+                      src={displayPhoto}
+                      alt={scannedItem.nome}
+                      className="w-12 h-12 rounded object-cover border border-gray-200"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=200&auto=format&fit=crop&q=80';
+                      }}
+                    />
+                  ) : null;
+                })()}
                 <div>
                   <span className="text-xs font-mono text-[#1a73e8] font-bold block">
                     {scannedItem.id}

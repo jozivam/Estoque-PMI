@@ -92,18 +92,41 @@ function getOrCreateFolder() {
 }
 
 /**
+ * Busca ou cria a subpasta de fotos para um produto específico dentro da pasta principal
+ */
+function getOrCreateProductFolder(productId, productName) {
+  var parentFolder = getOrCreateFolder();
+  // Remove caracteres especiais inválidos para nomes de pastas
+  var cleanName = (productName || "").replace(/[\\\/*?:"<>|]/g, "").trim();
+  var folderName = productId + " - " + cleanName;
+  
+  var subFolders = parentFolder.getFoldersByName(folderName);
+  if (subFolders.hasNext()) {
+    return subFolders.next();
+  } else {
+    var folder = parentFolder.createFolder(folderName);
+    // Permite que qualquer pessoa com o link veja as imagens desta subpasta
+    folder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    return folder;
+  }
+}
+
+/**
  * Salva uma imagem Base64 no Google Drive e retorna a URL pública direta
  */
-function saveBase64Image(base64Data, filename) {
+function saveBase64Image(base64Data, filename, folder) {
   if (!base64Data || !base64Data.startsWith("data:image")) {
     // Se não for base64 (já for um link http por exemplo), retorna a própria URL
     return base64Data;
   }
 
-  var folder = getOrCreateFolder();
+  // Se não foi passada uma pasta específica, usa a raiz
+  if (!folder) {
+    folder = getOrCreateFolder();
+  }
 
-  // Extrai mimetype e os dados raw
-  var matches = base64Data.match(/^data:(image\/[a-z]+);base64,(.+)$/);
+  // Extrai mimetype e os dados raw (suporta formatos como image/png, image/jpeg, etc.)
+  var matches = base64Data.match(/^data:(image\/[a-z0-9\-+.]+);base64,(.+)$/i);
   if (!matches) {
     return base64Data;
   }
@@ -118,9 +141,10 @@ function saveBase64Image(base64Data, filename) {
   // Configura compartilhamento público para visualização
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
-  // URL de visualização direta
-  return "https://docs.google.com/uc?export=view&id=" + file.getId();
+  // URL de visualização direta e robusta (Google Content Proxy)
+  return "https://lh3.googleusercontent.com/d/" + file.getId();
 }
+
 
 /**
  * Obtém os dados das duas abas da planilha
@@ -279,11 +303,13 @@ function handleSaveProduct(prod) {
   // 2. Processar fotos no Google Drive (converter base64 em arquivos)
   var imageUrls = [];
   if (prod.fotos && prod.fotos.length > 0) {
+    // Buscar ou criar subpasta específica para o produto
+    var productFolder = getOrCreateProductFolder(prod.id, prod.nome);
     for (var i = 0; i < prod.fotos.length; i++) {
       var fotoData = prod.fotos[i];
       if (fotoData.startsWith("data:image")) {
         var filename = prod.id + "_foto_" + i + "_" + Date.now() + ".jpg";
-        var driveUrl = saveBase64Image(fotoData, filename);
+        var driveUrl = saveBase64Image(fotoData, filename, productFolder);
         imageUrls.push(driveUrl);
       } else {
         imageUrls.push(fotoData);

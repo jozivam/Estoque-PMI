@@ -1,4 +1,4 @@
-import { Product, Movement } from '../types';
+import { Product, Movement, normalizeProductUrls } from '../types';
 
 const DB_NAME = 'EstoquePMIDB';
 const DB_VERSION = 1;
@@ -63,10 +63,11 @@ export const getLocalProducts = async (): Promise<Product[]> => {
 
 export const saveLocalProduct = async (product: Product): Promise<void> => {
   const db = await openDB();
+  const normalizedProduct = normalizeProductUrls(product);
   return new Promise((resolve, reject) => {
     const transaction = db.transaction('products', 'readwrite');
     const store = transaction.objectStore('products');
-    const request = store.put(product);
+    const request = store.put(normalizedProduct);
 
     request.onsuccess = () => resolve();
     request.onerror = () => reject(request.error);
@@ -80,7 +81,8 @@ export const saveLocalProductsBatch = async (products: Product[]): Promise<void>
     const store = transaction.objectStore('products');
 
     products.forEach(product => {
-      store.put(product);
+      const normalizedProduct = normalizeProductUrls(product);
+      store.put(normalizedProduct);
     });
 
     transaction.oncomplete = () => resolve();
@@ -199,7 +201,7 @@ export const resetLocalDatabase = async (initialProducts: Product[], initialMove
     transaction.objectStore('syncQueue').clear();
 
     const prodStore = transaction.objectStore('products');
-    initialProducts.forEach(p => prodStore.put(p));
+    initialProducts.forEach(p => prodStore.put(normalizeProductUrls(p)));
 
     const movStore = transaction.objectStore('movements');
     initialMovements.forEach(m => movStore.put(m));
