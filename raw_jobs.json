@@ -1,0 +1,137 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 92585422614,
+      "run_id": 31092143425,
+      "workflow_name": "Build Android APK",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/jozivam/Estoque-PMI/actions/runs/31092143425",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOTvJmWc8AAAAVjoVvFg",
+      "head_sha": "9313a51992ae31565c717271eb558bd0d515dfe8",
+      "url": "https://api.github.com/repos/jozivam/Estoque-PMI/actions/jobs/92585422614",
+      "html_url": "https://github.com/jozivam/Estoque-PMI/actions/runs/31092143425/job/92585422614",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-08-06T10:10:02Z",
+      "started_at": "2026-08-06T10:10:04Z",
+      "completed_at": "2026-08-06T10:10:27Z",
+      "name": "Build APK",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-08-06T10:10:05Z",
+          "completed_at": "2026-08-06T10:10:09Z"
+        },
+        {
+          "name": "Checkout Source Code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-08-06T10:10:09Z",
+          "completed_at": "2026-08-06T10:10:10Z"
+        },
+        {
+          "name": "Set up Node.js",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-08-06T10:10:10Z",
+          "completed_at": "2026-08-06T10:10:16Z"
+        },
+        {
+          "name": "Install Dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-08-06T10:10:16Z",
+          "completed_at": "2026-08-06T10:10:21Z"
+        },
+        {
+          "name": "Build Web App",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-08-06T10:10:21Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Sync Capacitor Android",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 6,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Set up JDK 17",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Setup Gradle",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Build Android Debug APK",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Upload Android APK Artifact",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Post Set up Node.js",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 19,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Post Checkout Source Code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-08-06T10:10:24Z",
+          "completed_at": "2026-08-06T10:10:24Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/jozivam/Estoque-PMI/check-runs/92585422614",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000030,
+      "runner_name": "GitHub Actions 1000000030",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}
